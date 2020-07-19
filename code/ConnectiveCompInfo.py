@@ -1,10 +1,17 @@
+### ---------------------------------------------- ###
+# This file generates all non-empty combinations of 
+# Boolean connectives and outputs a CSV file that pairs them 
+# with the informativeness and complexity values
+### ---------------------------------------------- ###
+
 from __future__ import division
 
-### Define the powerset function that generates all the subsets of a set. 
+"""
+GENERAL THINGS
+"""
+	
+# Define the powerset function that generates all the subsets of a set. 
 def powerset(seq):
-    """
-    Returns all the subsets of this set. This is a generator.
-    """
     if len(seq) <= 1:
         yield seq
         yield []
@@ -13,14 +20,26 @@ def powerset(seq):
             yield [seq[0]]+item
             yield item
 
-### Define a subset function (from two lists to a truth value).
+# Define a subset function (from two lists to a truth value).
 def subset(sub,sup):
 	if(all(x in sup for x in sub)): 
 		return True
 	else:
 		return False
 
-### the following function generates the set of innocent excludable alternatives given a prejacent word and the language (set of words)
+# The list of all possible connectives
+connective = [[1,1,1,1],[1,1,1,0],[1,1,0,1],[1,1,0,0],[1,0,1,1],[1,0,1,0],[1,0,0,1],[1,0,0,0],[0,1,1,1],[0,1,1,0],[0,1,0,1],[0,1,0,0],[0,0,1,1],[0,0,1,0],[0,0,0,1],[0,0,0,0]]
+
+# Generate the set of languages
+langs = powerset(connective)
+langs = list(langs)
+langs.remove([]) # remove the empty language
+
+"""
+CODE RELEVANT FOR SCALAR IMPLICATURE
+"""
+
+# A function returning the set of innocently excludable alternatives given a prejacent word and the language (set of words)
 def ie_fun(prej,lang):
 	# first we take the alts that are non-weaker 
 	alts = []
@@ -63,7 +82,7 @@ def ie_fun(prej,lang):
 
 	return ie
 
-### the following function generates the strengthened meaning of a prejacent word given the prejacent word and the language
+# Function that returns the strengthened meaning of a prejacent word given the prejacent word and the language
 def si(prej,lang):
 	ie = ie_fun(prej,lang)
 	if ie == []:
@@ -78,7 +97,7 @@ def si(prej,lang):
 		# 	strengthened[i] = 0
 	return strengthened
 
-### the following function generates the strengthened representation of a language by strengthening each word in it
+# Function that returns the strengthened representation of a language by strengthening each word in it
 def strengthen(lang):
 	# new_lang = []
 	new_lang = [[]]*len(lang)
@@ -87,24 +106,11 @@ def strengthen(lang):
 		new_lang[i] = si_word
 	return new_lang
 
-### the list of all possible connectives
-connective = [[1,1,1,1],[1,1,1,0],[1,1,0,1],[1,1,0,0],[1,0,1,1],[1,0,1,0],[1,0,0,1],[1,0,0,0],[0,1,1,1],[0,1,1,0],[0,1,0,1],[0,1,0,0],[0,0,1,1],[0,0,1,0],[0,0,0,1],[0,0,0,0]]
+"""
+CODE RELEVANT FOR INFORMATIVENESS
+"""
 
-### generate the set of languages
-langs = powerset(connective)
-langs = list(langs)
-langs.remove([]) # remove the empty language
-
-### define a function that calculates informativeness 
-# def info(lang):
-# 	info = 0
-# 	for world in range(4):
-# 		truewords = list(filter(lambda x: x[world] == 1, lang))
-# 		for word in truewords:
-# 			info = info + 1/len(truewords)*1/sum(word)
-# 			# print 1/len(truewords)
-# 	return info
-
+# Define several utility functions
 def utility(world1,world2):
 	if world1 == world2:
 		return 1
@@ -127,6 +133,8 @@ def utility3(world1,world2):
 	else:
 		return 1/2
 
+# Function that returns the informativeness value of a language
+
 def info(lang):
 	info = 0
 	for world in range(4):
@@ -138,8 +146,12 @@ def info(lang):
 			# print 1/len(truewords)
 	return info
 
-### assign complexity to each connecitve: 
-### This counts the number of connectives appearing the formula in Propositional Logic containing \wedge, \vee and \neg which must contain both p and q. 
+"""
+CODE RELEVANT FOR COMPLEXITY
+"""
+
+# assign complexity to each connective: 
+## This counts the number of connectives appearing the formula in Propositional Logic containing \wedge, \vee and \neg which must contain both p and q. 
 connective_values1 = {
 	repr([1,1,1,0]): 1,
 	repr([1,0,0,0]): 1,
@@ -159,7 +171,7 @@ connective_values1 = {
 	repr([0,0,1,1]): 4
 }
 
-### This counts the number of connectives+literals appearing the formula in Propositional Logic containing \wedge, \vee and \neg (which don't have to contain both p and q). 
+## This counts the number of connectives+literals appearing the formula in Propositional Logic containing \wedge, \vee and \neg (which don't have to contain both p and q). 
 connective_values2 = {
 	repr([1,1,1,0]): 3,
 	repr([1,0,0,0]): 3,
@@ -179,7 +191,7 @@ connective_values2 = {
 	repr([0,0,1,1]): 2
 }
 
-### This counts the number of connectives (but not literals) appearing the formula in Propositional Logic containing \wedge, \vee and \neg (which don't have to contain both p and q). 
+## This counts the number of connectives (but not literals) appearing the formula in Propositional Logic containing \wedge, \vee and \neg (which don't have to contain both p and q). 
 connective_values3 = {
 	repr([1,1,1,0]): 1,
 	repr([1,0,0,0]): 1,
@@ -199,8 +211,8 @@ connective_values3 = {
 	repr([0,0,1,1]): 1
 }
 
-### Same as above but with additional weight (+1) for negation
-### This counts the number of connectives (but not literals) appearing the formula in Propositional Logic containing \wedge, \vee and \neg (which don't have to contain both p and q). 
+## Same as above but with additional weight (+1) for negation
+## This counts the number of connectives (but not literals) appearing the formula in Propositional Logic containing \wedge, \vee and \neg (which don't have to contain both p and q). 
 connective_values4 = {
 	repr([1,1,1,0]): 1,
 	repr([1,0,0,0]): 1,
@@ -220,13 +232,18 @@ connective_values4 = {
 	repr([0,0,1,1]): 2
 }
 
-### define a function that calculates complexity
+## define a function that calculates complexity
 def comp(lang,lot):
 	comp = 0
 	for word in lang:
 		comp = comp + lot[repr(word)]
 	return comp
 
+"""
+GENERATING THE TABLE
+"""
+
+# Generate the table pairing each language with its complexity and informativeness
 for lang in langs:
 	print '"',lang, '",', comp(lang,connective_values2), ',', info(strengthen(lang))
 
