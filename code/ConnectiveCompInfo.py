@@ -7,7 +7,7 @@
 from __future__ import division
 
 """
-GENERAL THINGS
+LANGUAGE MODEL
 """
 	
 # Define the powerset function that generates all the subsets of a set. 
@@ -36,7 +36,7 @@ langs = list(langs)
 langs.remove([]) # remove the empty language
 
 """
-CODE RELEVANT FOR SCALAR IMPLICATURE
+MODELLING SCALAR IMPLICATURE
 """
 
 # A function returning the set of innocently excludable alternatives given a prejacent word and the language (set of words)
@@ -107,7 +107,7 @@ def strengthen(lang):
 	return new_lang
 
 """
-CODE RELEVANT FOR INFORMATIVENESS
+MODELLING INFORMATIVENESS
 """
 
 # Define several utility functions
@@ -147,7 +147,7 @@ def info(lang):
 	return info
 
 """
-CODE RELEVANT FOR COMPLEXITY
+MODELLING COMPLEXITY
 """
 
 # assign complexity to each connective: 
