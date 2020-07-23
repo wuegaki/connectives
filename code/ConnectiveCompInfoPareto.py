@@ -1,7 +1,9 @@
 ### ----------------------------------------------------------- 
 # This file generates all non-empty combinations of 
-# Boolean connectives and outputs a CSV file that pairs them 
-# with the informativeness and complexity values
+# Boolean connectives and outputs the following two CSV files
+# - "full.csv": CSV file that pairs each language with the complexity and informativeness values
+# - "pareto.csv": CSV file that pairs each Pareto-optimal language with the complexity and informativeness values
+# It also generates the plot of all inventories based on the complexity and informativeness values
 ### -----------------------------------------------------------
 # Updated 23/07/20: Added a function that automatically computes 
 # the Pareto-optimal frontier, thanks to Moysh Bar-Lev. 
