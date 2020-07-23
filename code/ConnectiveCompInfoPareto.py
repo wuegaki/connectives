@@ -4,6 +4,7 @@
 # - "full.csv": CSV file that pairs each language with the complexity and informativeness values
 # - "pareto.csv": CSV file that pairs each Pareto-optimal language with the complexity and informativeness values
 # It also generates the plot of all inventories based on the complexity and informativeness values
+# REQUIRES python3
 ### -----------------------------------------------------------
 # Updated 23/07/20: Added a function that automatically computes 
 # the Pareto-optimal frontier, thanks to Moysh Bar-Lev. 
