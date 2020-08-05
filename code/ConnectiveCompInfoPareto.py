@@ -33,10 +33,10 @@ def subset(sub,sup):
 		return False
 
 # The list of all possible connectives
-connective = [[1,1,1,1],[1,1,1,0],[1,1,0,1],[1,1,0,0],[1,0,1,1],[1,0,1,0],[1,0,0,1],[1,0,0,0],[0,1,1,1],[0,1,1,0],[0,1,0,1],[0,1,0,0],[0,0,1,1],[0,0,1,0],[0,0,0,1],[0,0,0,0]]
+#connective = [[1,1,1,1],[1,1,1,0],[1,1,0,1],[1,1,0,0],[1,0,1,1],[1,0,1,0],[1,0,0,1],[1,0,0,0],[0,1,1,1],[0,1,1,0],[0,1,0,1],[0,1,0,0],[0,0,1,1],[0,0,1,0],[0,0,0,1],[0,0,0,0]]
 
 # The list of all commutative connectives
-# connective=[[1,1,1,1],[1,1,1,0],[1,0,0,1],[1,0,0,0],[0,1,1,1],[0,1,1,0],[0,0,0,1],[0,0,0,0]]
+connective=[[1,1,1,1],[1,1,1,0],[1,0,0,1],[1,0,0,0],[0,1,1,1],[0,1,1,0],[0,0,0,1],[0,0,0,0]]
 
 # The list of all commutative non-tautological connectives
 #connective=[[1,1,1,0],[1,0,0,1],[1,0,0,0],[0,1,1,1],[0,1,1,0],[0,0,0,1],[0,0,0,0]]
@@ -157,9 +157,9 @@ def info(lang):
 		for word in truewords:
 			for world2 in range(4):
 				if word[world2] == 1:
-					info = info + 1/4*1/len(truewords)*1/sum(word)*utility2(world,world2)
+					info = info + (frac(1/4))*(frac(1/len(truewords)))*(frac(1/sum(word)))*utility2(world,world2)
 			# print 1/len(truewords)
-	return info
+	return float(info)
 
 """
 MODELLING COMPLEXITY
@@ -205,6 +205,27 @@ connective_values2 = {
 	repr([0,1,0,1]): 2,
 	repr([0,0,1,1]): 2
 }
+
+## This counts the number of connectives+literals appearing the formula in Propositional Logic containing \wedge, \vee and \neg (which don't have to contain both p and q), plus negation has double the weight as other symbols. 
+connective_values2_doubleneg = {
+	repr([1,1,1,0]): 3,
+	repr([1,0,0,0]): 3,
+	repr([1,1,0,1]): 5,
+	repr([1,0,1,1]): 5, 
+	repr([0,1,1,1]): 5,
+	repr([0,1,0,0]): 5,
+	repr([0,0,1,0]): 5,
+	repr([0,0,0,1]): 5,
+	repr([1,1,0,0]): 1,
+	repr([1,0,1,0]): 1,
+	repr([0,0,0,0]): 5,
+	repr([1,1,1,1]): 5,
+	repr([1,0,0,1]): 9,
+	repr([0,1,1,0]): 9,
+	repr([0,1,0,1]): 3,
+	repr([0,0,1,1]): 3
+}
+
 
 ## This counts the number of connectives (but not literals) appearing the formula in Propositional Logic containing \wedge, \vee and \neg (which don't have to contain both p and q). 
 connective_values3 = {
