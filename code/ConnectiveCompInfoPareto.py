@@ -1,3 +1,12 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Created on Mon Apr  5 21:51:19 2021
+
+@author: wuegaki
+"""
+
+
 ### ----------------------------------------------------------- 
 # This file generates all non-empty combinations of 
 # Boolean connectives and outputs the following two CSV files
@@ -9,7 +18,8 @@
 # Updated 23/07/20: Added a function that automatically computes 
 # the Pareto-optimal frontier, thanks to Moysh Bar-Lev. 
 
-from __future__ import division
+# from __future__ import division
+from fractions import Fraction
 
 """
 LANGUAGE MODEL
@@ -34,9 +44,12 @@ def subset(sub,sup):
 
 # The list of all possible connectives
 #connective = [[1,1,1,1],[1,1,1,0],[1,1,0,1],[1,1,0,0],[1,0,1,1],[1,0,1,0],[1,0,0,1],[1,0,0,0],[0,1,1,1],[0,1,1,0],[0,1,0,1],[0,1,0,0],[0,0,1,1],[0,0,1,0],[0,0,0,1],[0,0,0,0]]
+        
+# The list of all connectives without the projection operators, negation and TAU
+connective = [[1,1,1,1],[1,1,1,0],[1,1,0,1],[1,0,1,1],[1,0,0,1],[1,0,0,0],[0,1,1,1],[0,1,1,0],[0,1,0,0],[0,0,1,0],[0,0,0,1],[0,0,0,0]]
 
 # The list of all commutative connectives
-connective=[[1,1,1,1],[1,1,1,0],[1,0,0,1],[1,0,0,0],[0,1,1,1],[0,1,1,0],[0,0,0,1],[0,0,0,0]]
+# connective=[[1,1,1,1],[1,1,1,0],[1,0,0,1],[1,0,0,0],[0,1,1,1],[0,1,1,0],[0,0,0,1],[0,0,0,0]]
 
 # The list of all commutative non-tautological connectives
 #connective=[[1,1,1,0],[1,0,0,1],[1,0,0,0],[0,1,1,1],[0,1,1,0],[0,0,0,1],[0,0,0,0]]
@@ -157,7 +170,7 @@ def info(lang):
 		for word in truewords:
 			for world2 in range(4):
 				if word[world2] == 1:
-					info = info + (frac(1/4))*(frac(1/len(truewords)))*(frac(1/sum(word)))*utility2(world,world2)
+					info = info + (Fraction('1/4'))*(Fraction(1/len(truewords)))*(Fraction(1/sum(word)))*utility2(world,world2)
 			# print 1/len(truewords)
 	return float(info)
 
